@@ -1,0 +1,23 @@
+[package]
+name = "chi-tg-inline-rs"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+either = "1.6"
+futures-util = "0.3"
+itertools = "0.10"
+md5 = "0.7"
+mongodb = "2.0"
+parking_lot = "0.11"
+rand = "0.8"
+reqwest = "0.11"
+serde = { version = "1.0", features = ["derive"] }
+teloxide = { version = "0.5", features = ["auto-send", "macros"] }
+teloxide-listener = { git = "https://github.com/PhotonQuantum/teloxide-listener", features = ["webhook"] }
+thiserror = "1.0"
+tokio-stream = "0.1"
+tracing = "0.1"
+tracing-subscriber = "0.3"
+url = "2.2"
+tokio = { version = "1.12", features=["rt-multi-thread", "macros", "parking_lot"] }
