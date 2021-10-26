@@ -31,7 +31,7 @@ struct Sentence {
 pub struct Summary {
     pub total: u64,
     pub users: u64,
-    pub top_sentences: HashMap<String, u64>,
+    pub top_sentences: Vec<(String, u64)>,
     pub top_user_count: u64,
 }
 
@@ -99,13 +99,13 @@ async fn fetch_stats(
         .await?
         .unwrap();
     let sentences: HashMap<_, _> = sentences
-        .find(doc! {"sentences": {"$exists": true}}, None)
+        .find(doc! {"sentence": {"$exists": true}}, None)
         .await?
         .map(|item| item.map(|sentence| (sentence.sentence, sentence.count)))
         .try_collect()
         .await?;
     let users: HashMap<_, _> = users
-        .find(doc! {"users": {"$exists": true}}, None)
+        .find(doc! {"user": {"$exists": true}}, None)
         .await?
         .map(|item| item.map(|user| (user.user, user.count)))
         .try_collect()
