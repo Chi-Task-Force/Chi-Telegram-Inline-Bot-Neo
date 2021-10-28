@@ -1,11 +1,13 @@
 #![allow(clippy::non_ascii_literal, clippy::cast_lossless)]
 
 use std::env;
+use std::fs::File;
 use std::str::FromStr;
 use std::sync::Arc;
 use std::time::Duration;
 
 use itertools::Itertools;
+use mongodb::Client;
 use parking_lot::RwLock;
 use teloxide::prelude::*;
 use teloxide::types::{
@@ -21,6 +23,7 @@ use errors::Result;
 
 use crate::booking::Booking;
 use crate::corpus::CorpusClient;
+use crate::migrate::Migrator;
 use crate::seller::Seller;
 use crate::stats::MongoDBLogger;
 use crate::utils::mask_user;
@@ -31,6 +34,7 @@ mod errors;
 mod seller;
 mod stats;
 mod utils;
+mod migrate;
 
 const BOT_NAME: &str = "realskyzh_bot";
 const UPD_INTERVAL_SECS: u64 = 60 * 60;
@@ -53,12 +57,21 @@ async fn main() -> Result<()> {
     .expect("malformed url");
     let mongodb_uri = env::var("APP_MONGODB_URI").expect("missing mongodb url");
     let mongodb_db_name = env::var("APP_MONGODB_DBNAME").expect("missing mongodb dbname");
+    let client = Client::with_uri_str(mongodb_uri).await?;
+    let db = client.database(mongodb_db_name.as_str());
+
+    let migrate_log = env::var("APP_MIGRATE_LOG").ok();
+    if let Some(migrate_log) = migrate_log {
+        let f = File::open(migrate_log)?;
+        let migrator = Migrator::from_reader(f)?;
+        migrator.migrate(db).await?;
+        return Ok(());
+    }
 
     let corpus = Arc::new(CorpusClient::new_with_url(&base_url).await?);
     let seller = Arc::new(Seller::new(corpus.clone()));
 
-    let logger =
-        Arc::new(MongoDBLogger::new(mongodb_uri.as_str(), mongodb_db_name.as_str()).await?);
+    let logger = Arc::new(MongoDBLogger::new(db).await?);
 
     let booking = Arc::new(RwLock::new(Booking::default()));
 

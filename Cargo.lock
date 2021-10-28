@@ -164,6 +164,7 @@ dependencies = [
  "rand",
  "reqwest",
  "serde",
+ "serde_json",
  "teloxide",
  "teloxide-listener",
  "thiserror",

@@ -2,29 +2,29 @@ use std::collections::HashMap;
 
 use futures_util::{StreamExt, TryStreamExt};
 use itertools::Itertools;
-use mongodb::{Client, Collection};
+use mongodb::{Collection, Database};
 use mongodb::bson::doc;
 use mongodb::options::{FindOneAndUpdateOptions, ReturnDocument};
 use parking_lot::{RwLock, RwLockReadGuard};
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
 use crate::errors::Result;
 
-#[derive(Debug, Deserialize)]
-struct Total {
-    total: u64,
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Total {
+    pub total: u64,
 }
 
-#[derive(Debug, Deserialize)]
-struct User {
-    user: String,
-    count: u64,
+#[derive(Debug, Serialize, Deserialize)]
+pub struct User {
+    pub user: String,
+    pub count: u64,
 }
 
-#[derive(Debug, Deserialize)]
-struct Sentence {
-    sentence: String,
-    count: u64,
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Sentence {
+    pub sentence: String,
+    pub count: u64,
 }
 
 #[derive(Debug, Clone)]
@@ -118,9 +118,7 @@ async fn fetch_stats(
 }
 
 impl MongoDBLogger {
-    pub async fn new(uri: &str, db_name: &str) -> Result<Self> {
-        let client = Client::with_uri_str(uri).await?;
-        let db = client.database(db_name);
+    pub async fn new(db: Database) -> Result<Self> {
         let coll_total = db.collection("stats");
         let coll_sentences = db.collection("sentences");
         let coll_users = db.collection("users");

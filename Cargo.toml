@@ -13,6 +13,7 @@ parking_lot = "0.11"
 rand = "0.8"
 reqwest = "0.11"
 serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
 teloxide = { version = "0.5", features = ["auto-send", "macros"] }
 teloxide-listener = { git = "https://github.com/PhotonQuantum/teloxide-listener", features = ["webhook"] }
 thiserror = "1.0"
