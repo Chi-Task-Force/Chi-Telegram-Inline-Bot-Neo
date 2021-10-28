@@ -20,7 +20,7 @@ RUN apt-get -y update
 
 RUN apt-get -y install ca-certificates
 
-COPY --from=builder ./work/target/release/chi-tg-line-rs ./
+COPY --from=builder ./work/target/release/chi-tg-inline-rs ./
 
 EXPOSE 8080
 
