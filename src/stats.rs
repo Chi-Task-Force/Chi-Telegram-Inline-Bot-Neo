@@ -2,9 +2,9 @@ use std::collections::HashMap;
 
 use futures_util::{StreamExt, TryStreamExt};
 use itertools::Itertools;
-use mongodb::{Collection, Database};
 use mongodb::bson::doc;
 use mongodb::options::{FindOneAndUpdateOptions, ReturnDocument};
+use mongodb::{Collection, Database};
 use parking_lot::{RwLock, RwLockReadGuard};
 use serde::{Deserialize, Serialize};
 

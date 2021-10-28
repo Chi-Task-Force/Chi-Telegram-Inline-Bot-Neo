@@ -16,7 +16,7 @@ pub struct Corpus {
 pub struct CorpusClient {
     client: Client,
     base_url: Url,
-    corpus: RwLock<Corpus>
+    corpus: RwLock<Corpus>,
 }
 
 async fn fetch(client: &Client, url: Url) -> Result<Vec<String>> {
@@ -49,13 +49,13 @@ impl CorpusClient {
             common,
             refuse,
             trigger,
-            phrase
+            phrase,
         };
 
         Ok(Self {
             client,
             base_url: base_url.clone(),
-            corpus: RwLock::new(corpus)
+            corpus: RwLock::new(corpus),
         })
     }
     pub async fn update(&self) -> Result<()> {

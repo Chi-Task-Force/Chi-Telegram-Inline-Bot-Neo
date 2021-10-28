@@ -1,9 +1,9 @@
 use std::sync::Arc;
 
 use either::Either;
-use rand::{random, thread_rng};
 use rand::seq::IteratorRandom;
 use rand::seq::SliceRandom;
+use rand::{random, thread_rng};
 
 use crate::corpus::CorpusClient;
 
@@ -68,15 +68,10 @@ impl Seller {
         if keyword.is_empty() {
             Either::Left(corpus.common.iter())
         } else {
-            Either::Right(
-                corpus
-                    .common
-                    .iter()
-                    .filter(|s| s.contains(keyword)),
-            )
+            Either::Right(corpus.common.iter().filter(|s| s.contains(keyword)))
         }
-            .cloned()
-            .choose_multiple(&mut rng, 5)
+        .cloned()
+        .choose_multiple(&mut rng, 5)
     }
     pub fn moan(&self) -> String {
         let corpus = self.client.corpus();

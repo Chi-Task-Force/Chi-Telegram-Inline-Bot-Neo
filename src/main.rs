@@ -31,10 +31,10 @@ use crate::utils::mask_user;
 mod booking;
 mod corpus;
 mod errors;
+mod migrate;
 mod seller;
 mod stats;
 mod utils;
-mod migrate;
 
 const BOT_NAME: &str = "realskyzh_bot";
 const UPD_INTERVAL_SECS: u64 = 60 * 60;
@@ -233,10 +233,13 @@ async fn main() -> Result<()> {
             }
         });
 
-    dispatcher.setup_ctrlc_handler().dispatch_with_listener(
-        Listener::from_env().build(bot).await,
-        LoggingErrorHandler::with_custom_text("An error from the update listener"),
-    ).await;
+    dispatcher
+        .setup_ctrlc_handler()
+        .dispatch_with_listener(
+            Listener::from_env().build(bot).await,
+            LoggingErrorHandler::with_custom_text("An error from the update listener"),
+        )
+        .await;
 
     Ok(())
 }
