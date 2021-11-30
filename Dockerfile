@@ -1,10 +1,8 @@
-FROM rust:slim-bullseye AS builder
+FROM rust:alpine AS builder
 
 WORKDIR /work
 
-RUN apt-get -y update
-
-RUN apt-get -y install pkg-config libssl-dev ca-certificates
+RUN apk update && apk add musl-dev
 
 COPY src ./src
 
@@ -12,13 +10,9 @@ COPY Cargo.toml Cargo.lock ./
 
 RUN cargo build --release
 
-FROM debian:bullseye-slim
+FROM alpine:latest
 
 WORKDIR /work
-
-RUN apt-get -y update
-
-RUN apt-get -y install ca-certificates
 
 COPY --from=builder ./work/target/release/chi-tg-inline-rs ./
 
