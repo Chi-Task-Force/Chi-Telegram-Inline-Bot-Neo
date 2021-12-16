@@ -1,21 +1,36 @@
 on:
   workflow_run:
-    workflows: ["Test"]
-    types:
-      - completed
+    workflows: [ "Test" ]
+    types: [ completed ]
 
-name: fly.io deploy
-
-env:
-  FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+name: Deploy
 
 jobs:
-  deploy:
-    name: Deploy app
-    if: ${{ github.ref == 'refs/heads/main' }}
+  musl:
+    name: Deploy Binary (musl)
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.ref == 'refs/heads/master' }}
     steps:
       - uses: actions/checkout@v2
-      - uses: superfly/flyctl-actions@1.1
+        name: Checkout 🛎️
+      - uses: actions-rs/toolchain@v1
+        name: Setup Cargo Toolchain 🛎️
         with:
-          args: "deploy"
+          profile: minimal
+          toolchain: stable
+          target: x86_64-unknown-linux-musl
+          default: true
+      - run: sudo apt-get install -y musl-tools
+        name: Setup musl 🔧
+      - uses: Swatinem/rust-cache@v1
+      - run: cargo build --release --target x86_64-unknown-linux-musl
+        name: Build Release Binary 🚀
+      - run: cp target/x86_64-unknown-linux-musl/release/chi-tg-inline-rs ./
+      - uses: actions/upload-artifact@v2
+        name: Upload Artifact
+        with:
+          name: release-musl
+          path: chi-tg-inline-rs
+      - run: |
+          curl -XPOST -u "PhotonQuantum:${{secrets.GH_TOKEN}}" -H "Accept: application/vnd.github.everest-preview+json" -H "Content-Type: application/json" https://api.github.com/repos/PhotonQuantum/aquarium/dispatches --data '{"event_type": "deploy"}'
+        name: Launch 🚀
