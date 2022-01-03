@@ -1579,7 +1579,7 @@ dependencies = [
 [[package]]
 name = "teloxide-listener"
 version = "0.1.0"
-source = "git+https://github.com/PhotonQuantum/teloxide-listener#6c0c6ff54a84915f72fcc470d93a2526e008e5c4"
+source = "git+https://github.com/PhotonQuantum/teloxide-listener#2ef2b5e26cf93dde37e0bb8031a62571b481a6aa"
 dependencies = [
  "axum",
  "futures-core",
