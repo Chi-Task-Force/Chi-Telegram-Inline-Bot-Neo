@@ -1580,7 +1580,7 @@ dependencies = [
 [[package]]
 name = "teloxide-listener"
 version = "0.1.0"
-source = "git+https://github.com/PhotonQuantum/teloxide-listener#32439e0c676060901e4d03986a20d12f68212bdb"
+source = "git+https://github.com/PhotonQuantum/teloxide-listener#629f332c7b87ed155256cd3e1602fa9e645081f5"
 dependencies = [
  "axum",
  "futures-core",
@@ -1659,9 +1659,9 @@ checksum = "cda74da7e1a664f795bb1f8a87ec406fb89a02522cf6e50620d016add6dbbf5c"
 
 [[package]]
 name = "tokio"
-version = "1.15.0"
+version = "1.16.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fbbf1c778ec206785635ce8ad57fe52b3009ae9e0c9f574a728f3049d3e55838"
+checksum = "0c27a64b625de6d309e8c57716ba93021dccf1b3b5c97edd6d3dd2d2135afc0a"
 dependencies = [
  "bytes",
  "libc",
