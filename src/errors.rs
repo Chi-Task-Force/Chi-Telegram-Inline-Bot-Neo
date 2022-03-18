@@ -12,4 +12,6 @@ pub enum Error {
     IO(#[from] std::io::Error),
     #[error("mongodb error: {0}")]
     DB(#[from] mongodb::error::Error),
+    #[error("telegram request error: {0}")]
+    Telegram(#[from] teloxide::RequestError),
 }

@@ -57,7 +57,7 @@ pub struct Seller {
 
 impl Seller {
     pub fn new(client: Arc<CorpusClient>) -> Self {
-        Seller { client }
+        Self { client }
     }
 }
 

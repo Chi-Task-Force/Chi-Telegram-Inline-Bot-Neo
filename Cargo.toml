@@ -14,11 +14,11 @@ rand = "0.8"
 reqwest = { version = "0.11", default-features = false, features = ["rustls-tls"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
-teloxide = { version = "0.5", default-features = false, features = ["ctrlc_handler", "rustls", "auto-send", "macros"] }
-teloxide-listener = { git = "https://github.com/PhotonQuantum/teloxide-listener", features = ["webhook"] }
+teloxide = { version = "0.7", default-features = false, features = ["ctrlc_handler", "rustls", "auto-send", "macros", "dispatching2"] }
+teloxide-listener = "0.1.0-beta.1"
 thiserror = "1.0"
 tokio-stream = "0.1"
 tracing = "0.1"
 tracing-subscriber = "0.3"
 url = "2.2"
-tokio = { version = "1.16", features = ["rt-multi-thread", "macros", "parking_lot"] }
+tokio = { version = "1.17", features = ["rt-multi-thread", "macros", "parking_lot"] }

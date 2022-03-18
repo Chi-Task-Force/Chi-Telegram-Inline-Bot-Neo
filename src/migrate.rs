@@ -1,9 +1,11 @@
-use crate::errors::Result;
-use crate::stats::{Sentence, Total, User};
-use mongodb::Database;
-use serde::Deserialize;
 use std::collections::HashMap;
 use std::io::Read;
+
+use mongodb::Database;
+use serde::Deserialize;
+
+use crate::errors::Result;
+use crate::stats::{Sentence, Total, User};
 
 #[derive(Debug, Clone, Deserialize)]
 pub struct Migrator {
@@ -14,7 +16,7 @@ pub struct Migrator {
 
 impl Migrator {
     pub fn from_reader(f: impl Read) -> Result<Self> {
-        serde_json::from_reader(f).map_err(|e| e.into())
+        serde_json::from_reader(f).map_err(std::convert::Into::into)
     }
     pub async fn migrate(self, db: Database) -> Result<()> {
         let coll_total = db.collection("stats");
