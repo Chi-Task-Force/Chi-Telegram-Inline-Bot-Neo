@@ -18,7 +18,7 @@ pub async fn inline_query_handler(
     query: InlineQuery,
     bot: AutoSend<Bot>,
     logger: Arc<MongoDBLogger>,
-    seller: Seller,
+    seller: Arc<Seller>,
     booking: Arc<RwLock<Booking>>,
 ) -> Result<(), Error> {
     let sell_count = logger
