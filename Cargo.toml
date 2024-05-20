@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-either = "1.11"
+either = "1.12"
 futures-util = "0.3"
 itertools = "0.12"
 md5 = "0.7"
