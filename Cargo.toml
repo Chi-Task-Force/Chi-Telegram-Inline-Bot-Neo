@@ -6,7 +6,7 @@ edition = "2021"
 [dependencies]
 either = "1.13"
 futures-util = "0.3"
-itertools = "0.13"
+itertools = "0.14"
 md5 = "0.7"
 mongodb = "2.8"
 parking_lot = "0.12"
